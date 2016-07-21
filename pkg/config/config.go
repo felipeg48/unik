@@ -35,9 +35,9 @@ type Virtualbox struct {
 }
 
 type Qemu struct {
-	Name string `yaml:"name"`
-	NoGraphic bool `yaml:"no_graphic"`
-	DebuggerPort int `yaml:"debugger_port"`
+	Name         string `yaml:"name"`
+	NoGraphic    bool   `yaml:"no_graphic"`
+	DebuggerPort int    `yaml:"debugger_port"`
 }
 
 type VirtualboxAdapterType string
@@ -52,7 +52,7 @@ type ClientConfig struct {
 }
 
 type HubConfig struct {
-	URL string `yaml:"url"`
+	URL      string `yaml:"url"`
 	Username string `yaml:"user"`
 	Password string `yaml:"pass"`
 }

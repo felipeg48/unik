@@ -26,12 +26,12 @@ import (
 	"github.com/emc-advanced-dev/unik/pkg/providers/vsphere"
 	"github.com/emc-advanced-dev/unik/pkg/state"
 	"github.com/emc-advanced-dev/unik/pkg/types"
+	"github.com/emc-advanced-dev/unik/pkg/util"
 	"github.com/go-martini/martini"
 	"github.com/layer-x/layerx-commons/lxmartini"
+	"os/exec"
 	"path/filepath"
 	"runtime"
-	"os/exec"
-	"github.com/emc-advanced-dev/unik/pkg/util"
 )
 
 type UnikDaemon struct {
@@ -122,28 +122,28 @@ func NewUnikDaemon(config config.DaemonConfig) (*UnikDaemon, error) {
 
 	_compilers[compilers.RUMP_GO_AWS] = &rump.RumpGoCompiler{
 		RumCompilerBase: rump.RumCompilerBase{
-			DockerImage:   "compilers-rump-go-xen",
-			CreateImage:   rump.CreateImageAws,
+			DockerImage: "compilers-rump-go-xen",
+			CreateImage: rump.CreateImageAws,
 		},
 	}
 	_compilers[compilers.RUMP_GO_VMWARE] = &rump.RumpGoCompiler{
 		RumCompilerBase: rump.RumCompilerBase{
 
-			DockerImage:   "compilers-rump-go-hw",
-			CreateImage:   rump.CreateImageVmware,
+			DockerImage: "compilers-rump-go-hw",
+			CreateImage: rump.CreateImageVmware,
 		},
 	}
 	_compilers[compilers.RUMP_GO_VIRTUALBOX] = &rump.RumpGoCompiler{
 		RumCompilerBase: rump.RumCompilerBase{
 
-			DockerImage:   "compilers-rump-go-hw",
-			CreateImage:   rump.CreateImageVirtualBox,
+			DockerImage: "compilers-rump-go-hw",
+			CreateImage: rump.CreateImageVirtualBox,
 		},
 	}
 	_compilers[compilers.RUMP_GO_QEMU] = &rump.RumpGoCompiler{
 		RumCompilerBase: rump.RumCompilerBase{
-			DockerImage:   "compilers-rump-go-hw-no-stub",
-			CreateImage:   rump.CreateImageQemu,
+			DockerImage: "compilers-rump-go-hw-no-stub",
+			CreateImage: rump.CreateImageQemu,
 		},
 	}
 
@@ -173,8 +173,8 @@ func NewUnikDaemon(config config.DaemonConfig) (*UnikDaemon, error) {
 	}
 	_compilers[compilers.RUMP_NODEJS_QEMU] = &rump.RumpScriptCompiler{
 		RumCompilerBase: rump.RumCompilerBase{
-			DockerImage:   "compilers-rump-nodejs-hw-no-stub",
-			CreateImage:   rump.CreateImageQemu,
+			DockerImage: "compilers-rump-nodejs-hw-no-stub",
+			CreateImage: rump.CreateImageQemu,
 		},
 		RunScriptArgs: "/bootpart/node-wrapper.js",
 	}
@@ -378,7 +378,7 @@ func (d *UnikDaemon) addEndpoints() {
 				"args":         args,
 				"compiler":     compilerType,
 				"provider":     providerType,
-				"noCleanup":     noCleanup,
+				"noCleanup":    noCleanup,
 			}).Debugf("compiling raw image")
 
 			compileParams := types.CompileImageParams{
@@ -393,7 +393,6 @@ func (d *UnikDaemon) addEndpoints() {
 				return nil, http.StatusInternalServerError, errors.New("failed to compile raw image", err)
 			}
 			logrus.Debugf("raw image compiled and saved to " + rawImage.LocalImagePath)
-
 
 			if !noCleanup {
 				defer os.Remove(rawImage.LocalImagePath)

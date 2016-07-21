@@ -3,13 +3,13 @@ package virtualboxclient
 import (
 	"fmt"
 	"github.com/Sirupsen/logrus"
-	"github.com/emc-advanced-dev/unik/pkg/config"
 	"github.com/emc-advanced-dev/pkg/errors"
+	"github.com/emc-advanced-dev/unik/pkg/config"
+	"github.com/emc-advanced-dev/unik/pkg/types"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
-	"github.com/emc-advanced-dev/unik/pkg/types"
 )
 
 type VboxVm struct {
@@ -276,7 +276,7 @@ func RefreshDiskUUID(diskPath string) error {
 }
 
 func AttachDisk(vmNameOrId, vmdkPath string, controllerPort int, storageDriver types.StorageDriver) error {
-	switch storageDriver{
+	switch storageDriver {
 	case types.StorageDriver_SCSI:
 		return attachDiskSCSI(vmNameOrId, vmdkPath, controllerPort)
 	case types.StorageDriver_SATA:
@@ -286,7 +286,7 @@ func AttachDisk(vmNameOrId, vmdkPath string, controllerPort int, storageDriver t
 }
 
 func DetachDisk(vmNameOrId string, controllerPort int, storageDriver types.StorageDriver) error {
-	switch storageDriver{
+	switch storageDriver {
 	case types.StorageDriver_SCSI:
 		return detachDiskSCSI(vmNameOrId, controllerPort)
 	case types.StorageDriver_SATA:
